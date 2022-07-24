@@ -17,11 +17,13 @@ let producto = [];
 let messages = [];
 
 const app = express();
-app.use(express.urlencoded({extended: true}));
+//app.use(express.urlencoded({extended: true}));
 app.use(express.static('public')); 
 app.use(cookieParser());
 
-
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); 
 
 let modulo = require('./Contenedor.js');
 let contenedor_prod = new modulo.Contenedor('productos', options_mdb);
@@ -95,7 +97,7 @@ app.post('/login', passport.authenticate('autenticacion'), (req, res) => {
     res.redirect('/login');
 });
 
-app.get('/login', passport.authenticate('autenticacion'),(req, res) => {
+app.get('/login',(req, res) => {
     res.sendFile('index.html', { root: __dirname });
 });
 
